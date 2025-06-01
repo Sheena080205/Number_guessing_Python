@@ -22,16 +22,17 @@ A simple web-based number guessing game built using **Python Flask** for the bac
 
 ---
 
+
 ## 🛠️ How to Run the Project
 
-### 1. Clone the Repository
+### 1. Clone the Repository 
 
 ```bash
 git clone https://github.com/your-username/number-guessing-game.git
 cd number-guessing-game
 
-### 2. File Structure
 
+(File Structure)
 ```bash
 number-guessing-game/
         ├── app.py                 
