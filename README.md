@@ -29,3 +29,11 @@ A simple web-based number guessing game built using **Python Flask** for the bac
 ```bash
 git clone https://github.com/your-username/number-guessing-game.git
 cd number-guessing-game
+
+### 2. File Structure
+
+```bash
+number-guessing-game/
+        ├── app.py                 
+        ├── templates/       
+                ├── index.html               
