@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(to right, #b211cb, rgba(193, 210, 234, 0.24));
+      color: white;
+    }
+    .game-container {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      width: 80%;
+      text-align: center;
+    }
+    button {
+      background-color: #ffcc00;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #ffa500;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🎯 Number Guessing Game</h1>
+    <p>You have <span id="chances">7</span> chances to guess a number between 1 and 10.</p>
+
+    <input type="number" id="guessInput" placeholder="Enter a number" min="1" max="10">
+    <button onclick="sendGuess()">Guess</button>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+  let chances = 7;
+
+  async function sendGuess() {
+    const input = document.getElementById("guessInput");
+    const guess = input.value;
+    const message = document.getElementById("message");
+
+    const res = await fetch('/guess', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ guess: guess })
+    });
+
+    const data = await res.json();
+
+    if (data.status === 'win' || data.status === 'lose') {
+      message.textContent = data.message;
+      document.getElementById("guessInput").disabled = true;
+      document.querySelector("button").disabled = true;
+    } else if (data.status === 'continue') {
+      chances--;
+      document.getElementById("chances").textContent = chances;
+      message.textContent = data.message;
+    } else {
+      message.textContent = data.message;
+    }
+
+    input.value = '';
+  }
+
+  // Add event listener for pressing "Enter"
+  document.getElementById("guessInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      sendGuess();
+    }
+  });
+</script>
+
+</body>
+</html>
